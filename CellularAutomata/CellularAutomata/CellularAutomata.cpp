@@ -5,11 +5,13 @@ int main()
 {
     const int HOR = 192;
     const int VERT = 108;
-    const float PIXELS_PER_UNIT = 10.0f;
+    const float PIXELS_PER_UNIT = 10.0f;    
     sf::RenderWindow window(sf::VideoMode(HOR * PIXELS_PER_UNIT, VERT * PIXELS_PER_UNIT), "Conway's Game of Life - https://github.com/manoyes");
     sf::RectangleShape* viewGrid[HOR][VERT];
     int neighborCounts[HOR][VERT];
     int grid[HOR][VERT];
+
+    srand(time(NULL));
 
     // Initialize the grid
     for (int i = 0; i < HOR; i++)
@@ -25,6 +27,8 @@ int main()
         }
     }
 
+    window.setFramerateLimit(30);
+
     //Main loop
     while (window.isOpen())
     {
@@ -32,7 +36,9 @@ int main()
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
+            {
                 window.close();
+            }
         }
 
         window.clear();
