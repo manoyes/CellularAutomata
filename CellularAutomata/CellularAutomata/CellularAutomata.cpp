@@ -3,26 +3,22 @@
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(HOR * PIXELS_PER_UNIT, VERT * PIXELS_PER_UNIT), "Conway's Game of Life - https://github.com/manoyes");
-    sf::RectangleShape* viewGrid[HOR][VERT];
-    int neighborCounts[HOR][VERT];
-    int grid[HOR][VERT];
     const unsigned int HOR = 192;
     const unsigned int VERT = 108;
     const unsigned int PIXELS_PER_UNIT = 10;
+    // template object for drawing a cell
+    sf::RectangleShape* shape = new sf::RectangleShape(sf::Vector2f(10, 10));
 
     srand(time(NULL));
+    bool (*grid)[VERT] = new bool[HOR][VERT];
+    bool(*nextGrid)[VERT] = new bool[HOR][VERT];
 
     // Initialize the grid
     for (int i = 0; i < HOR; i++)
     {
         for (int j = 0; j < VERT; j++)
         {
-            grid[i][j] = rand() % 2;
-            sf::RectangleShape* shape = new sf::RectangleShape(sf::Vector2f(10, 10));
-            shape->setFillColor((grid[i][j] == 0 ? sf::Color::Black : sf::Color::White));
-            shape->setPosition(i * PIXELS_PER_UNIT, j * PIXELS_PER_UNIT);
-            viewGrid[i][j] = shape;
-            neighborCounts[i][j] = 0;
+            grid[i][j] = (bool)(rand() % 2);
         }
     }
 
@@ -60,17 +56,30 @@ int main()
         {
             for (int j = 1; j < VERT - 1; j++)
             {
-                neighborCounts[i][j] = 0;
+                int neighborCounts = 0;
 
                 for (int x = -1; x <= 1; x++)
                 {                    
                     for (int y = -1; y <= 1; y++)
                     {
-                        neighborCounts[i][j] += grid[i + x][j + y];
+                        neighborCounts += grid[i + x][j + y];
                     }
                 }
 
-                neighborCounts[i][j] -= grid[i][j];       
+                neighborCounts -= grid[i][j];
+
+                // If cell is alive and has fewer than two or greater than 3 
+                //neighbors, OR cell is dead and has exactly 3 neighbors, 
+                //invert the state. Otherwise, the state continues.
+                if ((grid[i][j] && (neighborCounts < 2 || neighborCounts > 3))
+                    || (!grid[i][j] && neighborCounts == 3))
+                {
+                    nextGrid[i][j] = !grid[i][j];
+                }
+                else
+                {
+                    nextGrid[i][j] = grid[i][j];
+                }
             }
         }
 
@@ -78,18 +87,8 @@ int main()
         for (int i = 0; i < HOR; i++)
         {
             for (int j = 0; j < VERT; j++)
-            {
-                if (grid[i][j] == 1 && (neighborCounts[i][j] < 2 || neighborCounts[i][j] > 3))
-                {
-                    grid[i][j] = 0;
-                }
-                else if (grid[i][j] == 0 && neighborCounts[i][j] == 3)
-                {
-                    grid[i][j] = 1;
-                }
-
-                viewGrid[i][j]->setFillColor((grid[i][j] == 0 ? sf::Color::Black : sf::Color::White));
-                //viewGrid[i][j]->setFillColor((rand() % 2 == 0 ? sf::Color::Black : sf::Color::White));
+            {                
+                grid[i][j] = nextGrid[i][j];
             }
         }
     }
