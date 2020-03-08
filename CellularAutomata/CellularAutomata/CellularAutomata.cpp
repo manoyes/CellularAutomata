@@ -2,10 +2,12 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(HOR * PIXELS_PER_UNIT, VERT * PIXELS_PER_UNIT), "Conway's Game of Life - https://github.com/manoyes");
     const unsigned int HOR = 192;
     const unsigned int VERT = 108;
     const unsigned int PIXELS_PER_UNIT = 10;
+    sf::RenderWindow* window = new sf::RenderWindow(
+        sf::VideoMode(HOR * PIXELS_PER_UNIT, VERT * PIXELS_PER_UNIT),
+        "Conway's Game of Life - https://github.com/manoyes");
     // template object for drawing a cell
     sf::RectangleShape* shape = new sf::RectangleShape(sf::Vector2f(10, 10));
 
@@ -24,34 +26,32 @@ int main()
         }
     }
 
-    window.setFramerateLimit(30);
+    window->setFramerateLimit(30);
 
     //Main loop
-    while (window.isOpen())
+    while (window->isOpen())
     {
         sf::Event event;
-        while (window.pollEvent(event))
+        while (window->pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
             {
-                window.close();
+                window->close();
             }
         }
 
-        window.clear();
-
         // Draw the grid
+        window->clear();
         for (int i = 0; i < HOR; i++)
         {
             for (int j = 0; j < VERT; j++)
             {
-                window.draw(*viewGrid[i][j]);
                 shape->setPosition((float)i * PIXELS_PER_UNIT, 
                                    (float)j * PIXELS_PER_UNIT);
+                window->draw(*shape);
             }
         }
-
-        window.display();
+        window->display();
 
         // Tally the neighbors
         for (int i = 1; i < HOR - 1; i++)
