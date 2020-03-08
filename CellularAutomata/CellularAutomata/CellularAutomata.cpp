@@ -9,9 +9,11 @@ int main()
     // template object for drawing a cell
     sf::RectangleShape* shape = new sf::RectangleShape(sf::Vector2f(10, 10));
 
-    srand(time(NULL));
     bool (*grid)[VERT] = new bool[HOR][VERT];
     bool(*nextGrid)[VERT] = new bool[HOR][VERT];
+
+    // Seed our random number generator
+    srand(static_cast<unsigned int>(time(nullptr)));
 
     // Initialize the grid
     for (int i = 0; i < HOR; i++)
