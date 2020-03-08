@@ -110,6 +110,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>E:\manoyes\Repositories\SFML-2.5.1\extlibs\libs-msvc\x64;E:\manoyes\Repositories\SFML-2.5.1\lib\Debug;E:\manoyes\Repositories\SFML-2.5.1\extlibs\libs-msvc-universal\x64;E:\manoyes\Repositories\SFML-2.5.1\extlibs\libs-mingw\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;sfml-audio-s-d.lib	;sfml-network-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <StackReserveSize>16000000</StackReserveSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
