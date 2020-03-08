@@ -46,7 +46,9 @@ int main()
         {
             for (int j = 0; j < VERT; j++)
             {
-                shape->setPosition((float)i * PIXELS_PER_UNIT, 
+                shape->setFillColor((grid[i][j] ? sf::Color::White 
+                                                : sf::Color::Black));
+                shape->setPosition((float)i * PIXELS_PER_UNIT,
                                    (float)j * PIXELS_PER_UNIT);
                 window->draw(*shape);
             }
